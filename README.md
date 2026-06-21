@@ -29,6 +29,7 @@ Archivo principal: `config_neovim.lua` → copiar a `~/.config/nvim/init.lua`
 | cmp-path | https://github.com/hrsh7th/cmp-path | Fuente rutas para cmp |
 | LuaSnip | https://github.com/L3MON4D3/LuaSnip | Snippets |
 | cmp_luasnip | https://github.com/saadparwaiz1/cmp_luasnip | Puente LuaSnip → cmp |
+| friendly-snippets | https://github.com/rafamadriz/friendly-snippets | Snippets para Python, C++, Lua y más |
 | telescope.nvim | https://github.com/nvim-telescope/telescope.nvim | Búsqueda fuzzy |
 | plenary.nvim | https://github.com/nvim-lua/plenary.nvim | Utilidades (dependencia) |
 | nvim-tree.lua | https://github.com/nvim-tree/nvim-tree.lua | Árbol de archivos lateral |
