@@ -51,6 +51,17 @@ require("lazy").setup({
     priority = 1000,
     config = function()
       vim.cmd.colorscheme("catppuccin-macchiato")
+      -- Limpiar la ventana de terminal para que sea legible
+      vim.api.nvim_create_autocmd("TermOpen", {
+        callback = function()
+          vim.opt_local.number = false
+          vim.opt_local.relativenumber = false
+          vim.opt_local.signcolumn = "no"
+          vim.opt_local.statuscolumn = ""
+          vim.cmd("highlight! TermNormal guibg=#1e1e2e guifg=#cdd6f4")
+          vim.cmd("highlight! TermCursor guibg=#f5e0dc guifg=#1e1e2e")
+        end,
+      })
     end,
   },
 
