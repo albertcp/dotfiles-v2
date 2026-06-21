@@ -57,7 +57,7 @@ Obtén tu API key gratis en https://opencode.ai/auth
 ## Funcionalidades
 
 - **Dashboard de inicio** con alpha-nvim al abrir Neovim sin archivo (centrado, con iconos)
-- **Syntax checking** integrado: LSP (clangd, pyright, lua_ls) + linters (ruff, shellcheck) con iconos en la columna de diagnóstico
+- **Syntax checking** integrado: LSP (clangd, pylsp, lua_ls) + linters (ruff, shellcheck) con iconos en la columna de diagnóstico
 - **nvim-tree se abre automáticamente** junto al dashboard al iniciar en un directorio
 - **Markdown renderizado** visualmente al abrir archivos `.md`
 - **Preview en navegador** con `<leader>mp`
@@ -99,7 +99,7 @@ Obtén tu API key gratis en https://opencode.ai/auth
 | `<leader>fb` | Lista de buffers abiertos |
 | `<leader>fh` | Buscar ayuda de Neovim |
 
-### LSP (C++, Python, Lua)
+### LSP (C++ clangd, Python pylsp, Lua lua_ls)
 
 | Tecla | Acción |
 |---|---|

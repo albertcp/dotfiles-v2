@@ -191,6 +191,13 @@ require("lazy").setup({
     build = ":MasonUpdate",
     config = function()
       require("mason").setup()
+      local registry = require("mason-registry")
+      for _, tool in ipairs({ "ruff", "shellcheck" }) do
+        if not registry.is_installed(tool) then
+          local ok, pkg = pcall(registry.get_package, tool)
+          if ok then pkg:install() end
+        end
+      end
     end,
   },
   {
@@ -198,7 +205,7 @@ require("lazy").setup({
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "clangd", "pyright", "lua_ls", "ruff", "shellcheck" },
+        ensure_installed = { "clangd", "pylsp", "lua_ls" },
         automatic_installation = true,
       })
     end,
@@ -240,14 +247,32 @@ require("lazy").setup({
         cmd = { "clangd", "--background-index", "--clang-tidy" },
       })
 
-      -- Python con pyright
-      vim.lsp.config("pyright", {
+      -- Python con pylsp
+      vim.lsp.config("pylsp", {
         settings = {
-          python = {
-            analysis = {
-              typeCheckingMode = "basic",
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
+          pylsp = {
+            plugins = {
+              pycodestyle = { enabled = false },
+              pyflakes = { enabled = false },
+              mccabe = { enabled = false },
+              autopep8 = { enabled = false },
+              yapf = { enabled = false },
+              jedi_completion = {
+                enabled = true,
+                include_params = true,
+                include_class_objects = true,
+                include_function_objects = true,
+                fuzzy = true,
+              },
+              jedi_signature_help = { enabled = true },
+              jedi_hover = { enabled = true },
+              jedi_references = { enabled = true },
+              jedi_documentation = { enabled = true },
+              jedi_definition = {
+                enabled = true,
+                follow_imports = true,
+                follow_builtin_imports = true,
+              },
             },
           },
         },
@@ -255,7 +280,7 @@ require("lazy").setup({
 
       -- Activar servidores
       vim.lsp.enable("clangd")
-      vim.lsp.enable("pyright")
+      vim.lsp.enable("pylsp")
       vim.lsp.enable("lua_ls")
     end,
   },
@@ -269,10 +294,12 @@ require("lazy").setup({
       "hrsh7th/cmp-path",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
+      "rafamadriz/friendly-snippets",
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+      require("luasnip.loaders.from_vscode").lazy_load()
       cmp.setup({
         snippet = {
           expand = function(args)
