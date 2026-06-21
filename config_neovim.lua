@@ -508,7 +508,7 @@ function _G.OpencodeToggle()
     opencode_win = nil
     return
   end
-  vim.cmd("15split | terminal opencode")
+  vim.cmd("rightbelow 80vsplit | terminal opencode")
   opencode_win = vim.api.nvim_get_current_win()
   vim.cmd("startinsert")
 end
