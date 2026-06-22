@@ -3,6 +3,7 @@
 -- ============================================================================
 
 -- Opciones básicas
+vim.cmd("syntax on")
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.syntax = "ON"
@@ -11,7 +12,9 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
-vim.opt.termguicolors = true
+if vim.fn.has("termguicolors") == 1 then
+  vim.opt.termguicolors = true
+end
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.ignorecase = true
@@ -44,24 +47,17 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugins
 require("lazy").setup({
 
-  -- Colores
+  -- Tema global: catppuccin (si hay true color) o habamax (fallback 256 colores)
   {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme("catppuccin-macchiato")
-      -- Limpiar la ventana de terminal para que sea legible
-      vim.api.nvim_create_autocmd("TermOpen", {
-        callback = function()
-          vim.opt_local.number = false
-          vim.opt_local.relativenumber = false
-          vim.opt_local.signcolumn = "no"
-          vim.opt_local.statuscolumn = ""
-          vim.cmd("highlight! TermNormal guibg=#1e1e2e guifg=#cdd6f4")
-          vim.cmd("highlight! TermCursor guibg=#f5e0dc guifg=#1e1e2e")
-        end,
-      })
+      if vim.o.termguicolors then
+        vim.cmd.colorscheme("catppuccin-macchiato")
+      else
+        vim.cmd.colorscheme("habamax")
+      end
     end,
   },
 
@@ -100,7 +96,8 @@ require("lazy").setup({
         dashboard.button("r", "    Archivos recientes", "<cmd>Telescope oldfiles<CR>"),
         dashboard.button("t", "    Buscar texto", "<cmd>Telescope live_grep<CR>"),
         dashboard.button("e", "    Nuevo archivo", "<cmd>ene <BAR> startinsert<CR>"),
-        dashboard.button("o", "    OpenCode", "<cmd>lua OpencodeToggle()<CR>"),
+        dashboard.button("o", "    OpenCode CLI", "<cmd>lua OpencodeToggle()<CR>"),
+        dashboard.button("a", "    Avante IA", "<cmd>AvanteAsk<CR>"),
         dashboard.button("q", "    Salir", "<cmd>qa<CR>"),
       }
 
@@ -188,9 +185,9 @@ require("lazy").setup({
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter").setup({
-        ensure_installed = { "c", "cpp", "python", "lua", "vimdoc", "markdown", "bash", "json", "yaml", "toml", "html", "css", "javascript", "typescript", "rust", "go" },
-        auto_install = true,
-        highlight = { enable = true },
+        ensure_installed = {},
+        auto_install = false,
+        highlight = { enable = false },
         indent = { enable = true },
       })
     end,
@@ -431,12 +428,14 @@ require("lazy").setup({
     end,
   },
 
-  -- Markdown – renderizado en Neovim
+  -- Markdown – renderizado en Neovim (también para Avante)
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {},
     config = function()
-      require("render-markdown").setup({})
+      require("render-markdown").setup({
+        file_types = { "markdown", "Avante" },
+      })
     end,
   },
 
@@ -448,6 +447,81 @@ require("lazy").setup({
     end,
     cmd = { "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" },
+  },
+
+  -- Notificaciones modernas (requerido por noice)
+  {
+    "rcarriga/nvim-notify",
+    config = function()
+      require("notify").setup({
+        background_colour = "#1e1e2e",
+        fps = 60,
+      })
+      vim.notify = require("notify")
+    end,
+  },
+
+  -- Interfaz moderna para cmdline, mensajes y popups
+  {
+    "folke/noice.nvim",
+    dependencies = { "rcarriga/nvim-notify" },
+    config = function()
+      require("noice").setup({
+        cmdline = { view = "cmdline_popup" },
+        messages = { view = "mini" },
+        popupmenu = { enabled = true },
+        lsp = { progress = { enabled = true } },
+        presets = { bottom_search = true, command_palette = true },
+      })
+    end,
+  },
+
+  -- Muestra colores inline (#hex, rgb, etc.)
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({ "*" })
+    end,
+  },
+
+  -- Diálogos de entrada más bonitos
+  {
+    "stevearc/dressing.nvim",
+    config = function()
+      require("dressing").setup({
+        input = { enabled = true },
+        select = { enabled = true },
+      })
+    end,
+  },
+
+  -- Popup con atajos al pulsar <leader>
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("which-key").setup({})
+    end,
+  },
+
+  -- Guías de indentación verticales
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("ibl").setup({
+        indent = { char = "│" },
+        scope = { highlight = "Comment" },
+      })
+    end,
+  },
+
+  -- Resalta TODOs, FIXMEs, HACKs, etc.
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("todo-comments").setup({})
+    end,
   },
 
   -- Avante.nvim – Plugin de IA conectado a OpenCode Zen
@@ -483,8 +557,43 @@ require("lazy").setup({
       },
       behaviour = {
         auto_suggestions = false,
-        auto_set_highlight_group = true,
+        auto_set_highlight_group = false,
         auto_set_keymaps = true,
+        auto_add_current_file = true,
+        enable_token_counting = true,
+        minimize_diff = true,
+      },
+      windows = {
+        position = "right",
+        width = 35,
+        wrap = true,
+        sidebar_header = {
+          enabled = true,
+          align = "center",
+          rounded = true,
+        },
+        input = {
+          prefix = " ",
+          height = 8,
+        },
+        edit = {
+          border = "rounded",
+          start_insert = true,
+        },
+        ask = {
+          floating = false,
+          start_insert = true,
+          border = "rounded",
+        },
+      },
+      highlights = {
+        diff = {
+          current = "DiffText",
+          incoming = "DiffAdd",
+        },
+        conflict = { bg = "#363a4f", fg = "#eed49f" },
+        accent_text = { fg = "#8aadf4" },
+        inline_hint = { fg = "#6e738d" },
       },
       mappings = {
         sidebar = {
@@ -496,6 +605,43 @@ require("lazy").setup({
   },
 })
 
+-- Avante: highlight groups extra para que matchee con catppuccin-macchiato
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "catppuccin-macchiato",
+  callback = function()
+    local hl = vim.api.nvim_set_hl
+    hl(0, "AvanteTitle",              { fg = "#8aadf4", bold = true })
+    hl(0, "AvanteReversedTitle",      { fg = "#8aadf4", bold = true })
+    hl(0, "AvanteSubtitle",           { fg = "#a6da95" })
+    hl(0, "AvanteReversedSubtitle",   { fg = "#a6da95" })
+    hl(0, "AvanteThirdTitle",         { fg = "#f5a97f" })
+    hl(0, "AvanteReversedThirdTitle", { fg = "#f5a97f" })
+    hl(0, "AvanteConflictCurrent",    { bg = "#363a4f", fg = "#eed49f" })
+    hl(0, "AvanteConflictIncoming",   { bg = "#363a4f", fg = "#a6da95" })
+    hl(0, "AvantePopupHint",          { fg = "#6e738d", italic = true })
+    hl(0, "AvanteInlineHint",         { fg = "#6e738d" })
+    hl(0, "AvantePromptInput",        { fg = "#cad3f5", bg = "#1e1e2e" })
+    hl(0, "AvantePromptInputBorder",  { fg = "#6e738d" })
+  end,
+})
+
+-- Terminal limpia: sin números de línea ni signcolumn
+-- Terminal con colores neutros (para que opencode TUI se vea bien)
+vim.g.terminal_ansi_colors = {
+  "#000000", "#cc0000", "#4e9a06", "#c4a000",
+  "#3465a4", "#75507b", "#06989a", "#d3d7cf",
+  "#555753", "#ef2929", "#8ae234", "#fce94f",
+  "#729fcf", "#ad7fa8", "#34e2e2", "#eeeeec",
+}
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.signcolumn = "no"
+    vim.opt_local.statuscolumn = ""
+  end,
+})
+
 -- Ocultar las ~ del final del buffer en toda la ventana
 vim.opt.fillchars:append("eob: ")
 vim.api.nvim_create_autocmd("VimEnter", {
@@ -504,6 +650,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = bg })
   end,
 })
+
 
 -- Iconos en la columna de diagnóstico (syntax checking)
 vim.fn.sign_define("DiagnosticSignError", { text = "󰅚", texthl = "DiagnosticSignError" })
@@ -615,6 +762,8 @@ map("n", "<leader>mp", "<cmd>MarkdownPreview<CR>", { desc = "Preview Markdown en
 map("n", "<leader>ms", "<cmd>MarkdownPreviewStop<CR>", { desc = "Detener preview Markdown" })
 
 map("n", "<leader>oc", "<cmd>lua OpencodeToggle()<CR>", { desc = "Toggle OpenCode" })
+map("n", "<leader>ft", "<cmd>TodoTelescope<CR>", { desc = "Buscar TODOs / FIXMEs" })
+map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Cerrar notificación" })
 
 -- ============================================================================
 --  CÓMO USAR:

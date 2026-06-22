@@ -36,9 +36,16 @@ Archivo principal: `config_neovim.lua` → copiar a `~/.config/nvim/init.lua`
 | nvim-web-devicons | https://github.com/nvim-tree/nvim-web-devicons | Iconos de archivos |
 | render-markdown.nvim | https://github.com/MeanderingProgrammer/render-markdown.nvim | Renderizar markdown en Neovim |
 | markdown-preview.nvim | https://github.com/iamcco/markdown-preview.nvim | Preview de markdown en navegador |
-| avante.nvim | https://github.com/yetone/avante.nvim | Plugin de IA (OpenCode Zen) |
+| avante.nvim | https://github.com/yetone/avante.nvim | Plugin de IA (sidebar, chat, edición con IA) |
 | nui.nvim | https://github.com/MunifTanjim/nui.nvim | Componentes UI (dependencia) |
 | nvim-lint | https://github.com/mfussenegger/nvim-lint | Linting extra (ruff, shellcheck) |
+| nvim-notify | https://github.com/rcarriga/nvim-notify | Notificaciones modernas |
+| noice.nvim | https://github.com/folke/noice.nvim | Interfaz moderna (cmdline, mensajes, popups) |
+| nvim-colorizer | https://github.com/norcalli/nvim-colorizer.lua | Colores inline (#hex, rgb) |
+| dressing.nvim | https://github.com/stevearc/dressing.nvim | Diálogos de entrada bonitos |
+| which-key.nvim | https://github.com/folke/which-key.nvim | Popup de atajos al pulsar <leader> |
+| indent-blankline | https://github.com/lukas-reineke/indent-blankline.nvim | Guías de indentación |
+| todo-comments | https://github.com/folke/todo-comments.nvim | Resalta TODOs, FIXMEs, HACKs |
 
 ## Cómo activar
 
@@ -60,12 +67,17 @@ Obtén tu API key gratis en https://opencode.ai/auth
 - **Dashboard de inicio** con alpha-nvim al abrir Neovim sin archivo (centrado, con iconos)
 - **Syntax checking** integrado: LSP (clangd, pylsp, lua_ls) + linters (ruff, shellcheck) con iconos en la columna de diagnóstico
 - **nvim-tree se abre automáticamente** junto al dashboard al iniciar en un directorio
-- **Markdown renderizado** visualmente al abrir archivos `.md`
+- **Markdown renderizado** visualmente al abrir archivos `.md` y en las respuestas de Avante
 - **Preview en navegador** con `<leader>mp`
-- **OpenCode** integrado: avante.nvim para chat IA + toggle de terminal `<leader>oc`
+- **OpenCode** integrado: avante.nvim para chat IA (sidebar a la derecha con header centrado, bordes redondeados, highlights del tema) + toggle de terminal `<leader>oc`
 - **Barra de estado** con lualine.nvim (modo, git, diagnóstico, archivo)
 - **Pestañas de buffers** con bufferline.nvim
 - **Redimensionar ventanas** con `<A-=>` y `<A-->`
+- **Guías de indentación** visuales con indent-blankline
+- **Popup de atajos** con which-key al pulsar `<leader>`
+- **Notificaciones modernas** con noice.nvim + nvim-notify
+- **Colores inline** (#hex, rgb, hsl) resaltados en el código
+- **TODOs/FIXMEs** destacados y buscables con todo-comments
 
 ## Comandos / Atajos
 
@@ -77,7 +89,8 @@ Obtén tu API key gratis en https://opencode.ai/auth
 | `r` | Archivos recientes (Telescope) |
 | `t` | Buscar texto (Telescope) |
 | `e` | Nuevo archivo vacío |
-| `o` | Abrir OpenCode (avante) |
+| `o` | Abrir terminal OpenCode |
+| `a` | Abrir Avante IA (chat) |
 
 ### Archivos y navegación
 
@@ -120,6 +133,8 @@ Obtén tu API key gratis en https://opencode.ai/auth
 | `<leader>aa` | Preguntar a la IA (avante) |
 | `<leader>ae` | Editar selección con IA |
 | `<leader>oc` | Toggle terminal OpenCode |
+| `<leader>ft` | Buscar TODOs / FIXMEs (Telescope) |
+| `<leader>nd` | Cerrar notificación activa |
 
 ### Markdown
 
