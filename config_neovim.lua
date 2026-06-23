@@ -186,7 +186,7 @@ require("lazy").setup({
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter").setup({
-        ensure_installed = {},
+        ensure_installed = { "markdown", "markdown_inline" },
         auto_install = false,
         highlight = { enable = false },
         indent = { enable = true },
@@ -559,12 +559,19 @@ require("lazy").setup({
           },
         },
       },
-      -- Alternativa para modelos GPT (Responses API):
+      -- Alternativa: OpenAI Responses API
       -- opencode_gpt = {
       --   __inherited_from = "openai",
       --   api_key_name = "OPENAI_API_KEY",
       --   endpoint = "https://opencode.ai/zen/v1/responses",
       --   model = "gpt-5.4-nano",
+      -- },
+      -- Alternativa: OpenAI Completion API (Chat Completions legacy)
+      -- opencode_legacy = {
+      --   __inherited_from = "openai",
+      --   api_key_name = "OPENAI_API_KEY",
+      --   endpoint = "https://opencode.ai/zen/v1/chat/completions",
+      --   model = "deepseek-v4-flash-free",
       -- },
       behaviour = {
         auto_suggestions = false,
@@ -635,12 +642,49 @@ require("lazy").setup({
               },
               schema = {
                 model = {
+                  type = "enum",
                   default = "deepseek-v4-flash-free",
+                  choices = { "deepseek-v4-flash-free" },
+                  desc = "Modelo OpenCode Zen",
                 },
               },
               opts = { stream = true, tools = true, vision = false },
             })
           end,
+          -- opencode_gpt = function()
+          --   return require("codecompanion.adapters").extend("openai_compatible", {
+          --     env = {
+          --       url = "https://opencode.ai/zen/v1/responses",
+          --       api_key = "OPENAI_API_KEY",
+          --     },
+          --     schema = {
+          --       model = {
+          --         type = "enum",
+          --         default = "gpt-5.4-nano",
+          --         choices = { "gpt-5.4-nano" },
+          --         desc = "Modelo OpenAI Responses",
+          --       },
+          --     },
+          --     opts = { stream = true, tools = true, vision = false },
+          --   })
+          -- end,
+          -- opencode_legacy = function()
+          --   return require("codecompanion.adapters").extend("openai_compatible", {
+          --     env = {
+          --       url = "https://opencode.ai/zen/v1/chat/completions",
+          --       api_key = "OPENAI_API_KEY",
+          --     },
+          --     schema = {
+          --       model = {
+          --         type = "enum",
+          --         default = "deepseek-v4-flash-free",
+          --         choices = { "deepseek-v4-flash-free" },
+          --         desc = "Modelo Legacy",
+          --       },
+          --     },
+          --     opts = { stream = true, tools = true, vision = false },
+          --   })
+          -- end,
         },
       },
       interactions = {
@@ -648,13 +692,15 @@ require("lazy").setup({
           adapter = "opencode_zen",
           slash_commands = {
             ["file"] = { opts = { provider = "telescope" } },
+            ["buffer"] = { opts = { provider = "telescope" } },
+            ["help"] = { opts = { provider = "telescope" } },
           },
         },
         inline = { adapter = "opencode_zen" },
       },
       display = {
         chat = {
-          show_settings = false,
+          show_settings = true,
           show_token_count = true,
           start_in_insert_mode = false,
           window = {
