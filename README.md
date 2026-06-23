@@ -56,11 +56,22 @@ cp config_neovim.lua ~/.config/nvim/init.lua
 # 2. Exportar API key de OpenCode Zen
 export OPENAI_API_KEY="tu-api-key-de-opencode.ai/auth"
 
-# 3. Abrir Neovim (se instalará todo automáticamente)
+# 3. Abrir Neovim (se instalará todo automáticamente,
+#    incluyendo parsers de treesitter: markdown, yaml)
 nvim
 ```
 
 Obtén tu API key gratis en https://opencode.ai/auth
+
+### Proveedores disponibles (avante.nvim)
+
+| Proveedor | Endpoint | Modelo |
+|---|---|---|
+| `opencode` (activo) | `https://opencode.ai/zen/v1` | `deepseek-v4-flash-free` |
+| `opencode_gpt` (comentado) | `https://opencode.ai/zen/v1/responses` | `gpt-5.4-nano` |
+| `opencode_legacy` (comentado) | `https://opencode.ai/zen/v1/chat/completions` | `deepseek-v4-flash-free` |
+
+Para cambiar de proveedor: `:AvanteSwitchProvider <nombre>` o presionar `ga` en la sidebar.
 
 ## Funcionalidades
 
@@ -69,13 +80,16 @@ Obtén tu API key gratis en https://opencode.ai/auth
 - **nvim-tree se abre automáticamente** junto al dashboard al iniciar en un directorio
 - **Markdown renderizado** visualmente al abrir archivos `.md` y en las respuestas de Avante
 - **Preview en navegador** con `<leader>mp`
-- **OpenCode** integrado: avante.nvim para chat IA (sidebar estilo Cursor, header centrado, bordes redondeados, highlights del tema) + toggle de terminal `<leader>oc`
+- **OpenCode** integrado: avante.nvim para chat IA (sidebar estilo Cursor, header centrado y redondeado, borders rounded, highlights del tema catppuccin)
+  - El thought content (razonamiento) del modelo se muestra en gris itálica
+  - Los buffers de Avante se ocultan de la barra de pestañas (bufferline)
 - **Barra de estado** con lualine.nvim (modo, git, diagnóstico, archivo)
-- **Pestañas de buffers** con bufferline.nvim
+- **Pestañas de buffers** con bufferline.nvim (con filtro para ocultar Avante y NvimTree)
 - **Redimensionar ventanas** con `<A-=>` y `<A-->`
 - **Guías de indentación** visuales con indent-blankline
 - **Popup de atajos** con which-key al pulsar `<leader>`
 - **Notificaciones modernas** con noice.nvim + nvim-notify
+- **Diálogos de entrada bonitos** con dressing.nvim
 - **Colores inline** (#hex, rgb, hsl) resaltados en el código
 - **TODOs/FIXMEs** destacados y buscables con todo-comments
 
@@ -131,9 +145,12 @@ Obtén tu API key gratis en https://opencode.ai/auth
 | Tecla | Acción |
 |---|---|
 | `<leader>aa` | Avante: preguntar en sidebar |
-| `<leader>ae` | Avante: editar selección |
-| `ga` (Avante) | Avante: cambiar modelo/provider |
-| `:AvanteModels` | Avante: listar modelos disponibles |
+| `<leader>ae` | Avante: editar selección (visual) |
+| `ga` (sidebar) | Avante: cambiar modelo/provider |
+| `r` (sidebar) | Avante: re-intentar petición |
+| `e` (sidebar) | Avante: editar petición |
+| `A` (sidebar) | Avante: aplicar todos los cambios |
+| `a` (sidebar) | Avante: aplicar cambio bajo el cursor |
 | `<leader>oc` | Toggle terminal OpenCode |
 | `<leader>ft` | Buscar TODOs / FIXMEs (Telescope) |
 | `<leader>nd` | Cerrar notificación activa |
