@@ -186,7 +186,7 @@ require("lazy").setup({
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter").setup({
-        ensure_installed = { "markdown", "markdown_inline" },
+        ensure_installed = { "markdown", "markdown_inline", "yaml" },
         auto_install = false,
         highlight = { enable = false },
         indent = { enable = true },
