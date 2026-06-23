@@ -98,6 +98,7 @@ require("lazy").setup({
         dashboard.button("e", "    Nuevo archivo", "<cmd>ene <BAR> startinsert<CR>"),
         dashboard.button("o", "    OpenCode CLI", "<cmd>lua OpencodeToggle()<CR>"),
         dashboard.button("a", "    Avante IA", "<cmd>AvanteAsk<CR>"),
+        dashboard.button("c", "    CodeCompanion", "<cmd>CodeCompanionChat Toggle<CR>"),
         dashboard.button("q", "    Salir", "<cmd>qa<CR>"),
       }
 
@@ -546,6 +547,18 @@ require("lazy").setup({
             temperature = 0.2,
             max_tokens = 4096,
           },
+          schema = {
+            model = {
+              type = "enum",
+              default = "deepseek-v4-flash-free",
+              choices = {
+                "deepseek-v4-flash-free",
+              },
+              desc = "Modelo OpenCode Zen",
+            },
+          },
+        },
+      },
         },
         -- Alternativa para modelos GPT (Responses API):
         -- opencode_gpt = {

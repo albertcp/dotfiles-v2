@@ -94,6 +94,7 @@ Obtén tu API key gratis en https://opencode.ai/auth
 | `e` | Nuevo archivo vacío |
 | `o` | Abrir terminal OpenCode |
 | `a` | Abrir Avante IA (chat) |
+| `c` | Abrir CodeCompanion chat |
 
 ### Archivos y navegación
 
@@ -135,6 +136,8 @@ Obtén tu API key gratis en https://opencode.ai/auth
 |---|---|
 | `<leader>aa` | Avante: preguntar en sidebar |
 | `<leader>ae` | Avante: editar selección |
+| `ga` (Avante) | Avante: cambiar modelo/provider |
+| `:AvanteModels` | Avante: listar modelos disponibles |
 | `<leader>cc` | CodeCompanion: toggle chat buffer |
 | `<leader>ci` | CodeCompanion: inline assist |
 | `ga` (visual) | CodeCompanion: añadir selección al chat |
