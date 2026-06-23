@@ -547,16 +547,6 @@ require("lazy").setup({
             temperature = 0.2,
             max_tokens = 4096,
           },
-          schema = {
-            model = {
-              type = "enum",
-              default = "deepseek-v4-flash-free",
-              choices = {
-                "deepseek-v4-flash-free",
-              },
-              desc = "Modelo OpenCode Zen",
-            },
-          },
         },
       },
       -- Alternativa: OpenAI Responses API
