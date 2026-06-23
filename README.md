@@ -36,7 +36,8 @@ Archivo principal: `config_neovim.lua` → copiar a `~/.config/nvim/init.lua`
 | nvim-web-devicons | https://github.com/nvim-tree/nvim-web-devicons | Iconos de archivos |
 | render-markdown.nvim | https://github.com/MeanderingProgrammer/render-markdown.nvim | Renderizar markdown en Neovim |
 | markdown-preview.nvim | https://github.com/iamcco/markdown-preview.nvim | Preview de markdown en navegador |
-| avante.nvim | https://github.com/yetone/avante.nvim | Plugin de IA (sidebar, chat, edición con IA) |
+| avante.nvim | https://github.com/yetone/avante.nvim | Chat IA estilo Cursor (sidebar, edición) |
+| codecompanion.nvim | https://github.com/olimorris/codecompanion.nvim | Chat IA tipo Continue.dev / JetBrains |
 | nui.nvim | https://github.com/MunifTanjim/nui.nvim | Componentes UI (dependencia) |
 | nvim-lint | https://github.com/mfussenegger/nvim-lint | Linting extra (ruff, shellcheck) |
 | nvim-notify | https://github.com/rcarriga/nvim-notify | Notificaciones modernas |
@@ -69,7 +70,9 @@ Obtén tu API key gratis en https://opencode.ai/auth
 - **nvim-tree se abre automáticamente** junto al dashboard al iniciar en un directorio
 - **Markdown renderizado** visualmente al abrir archivos `.md` y en las respuestas de Avante
 - **Preview en navegador** con `<leader>mp`
-- **OpenCode** integrado: avante.nvim para chat IA (sidebar a la derecha con header centrado, bordes redondeados, highlights del tema) + toggle de terminal `<leader>oc`
+- **OpenCode** integrado: dos plugins de IA para elegir (avante.nvim + codecompanion.nvim) + toggle de terminal `<leader>oc`
+  - **Avante**: sidebar a la derecha estilo Cursor, con header centrado, bordes redondeados, highlights del tema
+  - **CodeCompanion**: chat en buffer vertical tipo Continue.dev, inline assist, diff integrado
 - **Barra de estado** con lualine.nvim (modo, git, diagnóstico, archivo)
 - **Pestañas de buffers** con bufferline.nvim
 - **Redimensionar ventanas** con `<A-=>` y `<A-->`
@@ -130,8 +133,11 @@ Obtén tu API key gratis en https://opencode.ai/auth
 
 | Tecla | Acción |
 |---|---|
-| `<leader>aa` | Preguntar a la IA (avante) |
-| `<leader>ae` | Editar selección con IA |
+| `<leader>aa` | Avante: preguntar en sidebar |
+| `<leader>ae` | Avante: editar selección |
+| `<leader>cc` | CodeCompanion: toggle chat buffer |
+| `<leader>ci` | CodeCompanion: inline assist |
+| `ga` (visual) | CodeCompanion: añadir selección al chat |
 | `<leader>oc` | Toggle terminal OpenCode |
 | `<leader>ft` | Buscar TODOs / FIXMEs (Telescope) |
 | `<leader>nd` | Cerrar notificación activa |

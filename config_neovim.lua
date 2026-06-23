@@ -603,6 +603,72 @@ require("lazy").setup({
       },
     },
   },
+
+  -- CodeCompanion.nvim – Asistente IA tipo Continue.dev / JetBrains
+  {
+    "olimorris/codecompanion.nvim",
+    version = "^19.0.0",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      adapters = {
+        http = {
+          opencode_zen = function()
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              env = {
+                url = "https://opencode.ai/zen/v1",
+                chat_url = "/chat/completions",
+                api_key = "OPENAI_API_KEY",
+              },
+              schema = {
+                model = {
+                  default = "deepseek-v4-flash-free",
+                },
+              },
+              opts = { stream = true, tools = true, vision = false },
+            })
+          end,
+        },
+      },
+      interactions = {
+        chat = {
+          adapter = "opencode_zen",
+          slash_commands = {
+            ["file"] = { opts = { provider = "telescope" } },
+          },
+        },
+        inline = { adapter = "opencode_zen" },
+      },
+      display = {
+        chat = {
+          show_settings = false,
+          show_token_count = true,
+          start_in_insert_mode = false,
+          window = {
+            layout = "vertical",
+            width = 0.45,
+            height = 0.8,
+            border = "rounded",
+          },
+        },
+        diff = { enabled = true },
+        inline = { layout = "vertical" },
+      },
+      opts = { log_level = "INFO", language = "English", send_code = true },
+    },
+    config = function(_, opts)
+      require("codecompanion").setup(opts)
+      local map = vim.keymap.set
+      map({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>",
+        { desc = "Toggle CodeCompanion chat" })
+      map({ "n", "v" }, "<leader>ci", "<cmd>CodeCompanion<cr>",
+        { desc = "CodeCompanion inline assist" })
+      map("v", "ga", "<cmd>CodeCompanionChat Add<cr>",
+        { desc = "Añadir selección a chat" })
+    end,
+  },
 })
 
 -- Avante: highlight groups extra para que matchee con catppuccin-macchiato
@@ -770,11 +836,10 @@ map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Cerrar notificación" 
 --  1. Copia este archivo a ~/.config/nvim/init.lua
 --  2. Abre Neovim → se instalará lazy.nvim y todos los plugins
 --  3. Configura tu API key de OpenCode Zen:
---     export OPENCODE_API_KEY="tu-api-key-de-opencode.ai/auth"
---     Avante leerá la variable OPENAI_API_KEY automáticamente.
---     También puedes reiniciar Neovim y ejecutar:
---       :let $OPENAI_API_KEY = "tu-api-key"
+--     export OPENAI_API_KEY="tu-api-key-de-opencode.ai/auth"
 --  4. Obtén tu API key gratis en https://opencode.ai/auth
---  5. Usa <leader>aa para preguntar con IA en la sidebar
---  6. Usa <leader>ae para editar selección con IA
+--  5. IA:
+--     Avante:  <leader>aa (preguntar), <leader>ae (editar selección)
+--     CodeCompanion: <leader>cc (chat), <leader>ci (inline), ga (visual → añadir a chat)
+--     OpenCode terminal: <leader>oc
 -- ============================================================================
