@@ -559,15 +559,13 @@ require("lazy").setup({
           },
         },
       },
-        },
-        -- Alternativa para modelos GPT (Responses API):
-        -- opencode_gpt = {
-        --   __inherited_from = "openai",
-        --   api_key_name = "OPENAI_API_KEY",
-        --   endpoint = "https://opencode.ai/zen/v1/responses",
-        --   model = "gpt-5.4-nano",
-        -- },
-      },
+      -- Alternativa para modelos GPT (Responses API):
+      -- opencode_gpt = {
+      --   __inherited_from = "openai",
+      --   api_key_name = "OPENAI_API_KEY",
+      --   endpoint = "https://opencode.ai/zen/v1/responses",
+      --   model = "gpt-5.4-nano",
+      -- },
       behaviour = {
         auto_suggestions = false,
         auto_set_highlight_group = false,
