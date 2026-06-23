@@ -98,7 +98,6 @@ require("lazy").setup({
         dashboard.button("e", "    Nuevo archivo", "<cmd>ene <BAR> startinsert<CR>"),
         dashboard.button("o", "    OpenCode CLI", "<cmd>lua OpencodeToggle()<CR>"),
         dashboard.button("a", "    Avante IA", "<cmd>AvanteAsk<CR>"),
-        dashboard.button("c", "    CodeCompanion", "<cmd>CodeCompanionChat Toggle<CR>"),
         dashboard.button("q", "    Salir", "<cmd>qa<CR>"),
       }
 
@@ -175,6 +174,10 @@ require("lazy").setup({
           separator_style = "slant",
           show_buffer_close_icons = true,
           show_close_icon = false,
+          custom_filter = function(buf, _)
+            local ft = vim.bo[buf].filetype
+            return ft ~= "Avante" and ft ~= "NvimTree"
+          end,
         },
       })
     end,
@@ -565,7 +568,7 @@ require("lazy").setup({
       -- },
       behaviour = {
         auto_suggestions = false,
-        auto_set_highlight_group = false,
+        auto_set_highlight_group = true,
         auto_set_keymaps = true,
         auto_add_current_file = true,
         enable_token_counting = true,
@@ -581,7 +584,7 @@ require("lazy").setup({
           rounded = true,
         },
         input = {
-          prefix = " ",
+          prefix = "> ",
           height = 8,
         },
         edit = {
@@ -612,110 +615,6 @@ require("lazy").setup({
     },
   },
 
-  -- CodeCompanion.nvim – Asistente IA tipo Continue.dev / JetBrains
-  {
-    "olimorris/codecompanion.nvim",
-    version = "^19.0.0",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {
-      adapters = {
-        http = {
-          opencode_zen = function()
-            return require("codecompanion.adapters").extend("openai_compatible", {
-              env = {
-                url = "https://opencode.ai/zen/v1",
-                chat_url = "/chat/completions",
-                api_key = "OPENAI_API_KEY",
-              },
-              schema = {
-                model = {
-                  type = "enum",
-                  default = "deepseek-v4-flash-free",
-                  choices = { "deepseek-v4-flash-free" },
-                  desc = "Modelo OpenCode Zen",
-                },
-              },
-              opts = { stream = true, tools = true, vision = false },
-            })
-          end,
-          -- opencode_gpt = function()
-          --   return require("codecompanion.adapters").extend("openai_compatible", {
-          --     env = {
-          --       url = "https://opencode.ai/zen/v1/responses",
-          --       api_key = "OPENAI_API_KEY",
-          --     },
-          --     schema = {
-          --       model = {
-          --         type = "enum",
-          --         default = "gpt-5.4-nano",
-          --         choices = { "gpt-5.4-nano" },
-          --         desc = "Modelo OpenAI Responses",
-          --       },
-          --     },
-          --     opts = { stream = true, tools = true, vision = false },
-          --   })
-          -- end,
-          -- opencode_legacy = function()
-          --   return require("codecompanion.adapters").extend("openai_compatible", {
-          --     env = {
-          --       url = "https://opencode.ai/zen/v1/chat/completions",
-          --       api_key = "OPENAI_API_KEY",
-          --     },
-          --     schema = {
-          --       model = {
-          --         type = "enum",
-          --         default = "deepseek-v4-flash-free",
-          --         choices = { "deepseek-v4-flash-free" },
-          --         desc = "Modelo Legacy",
-          --       },
-          --     },
-          --     opts = { stream = true, tools = true, vision = false },
-          --   })
-          -- end,
-        },
-      },
-      interactions = {
-        chat = {
-          adapter = "opencode_zen",
-          slash_commands = {
-            ["file"] = { opts = { provider = "telescope" } },
-            ["buffer"] = { opts = { provider = "telescope" } },
-            ["help"] = { opts = { provider = "telescope" } },
-          },
-        },
-        inline = { adapter = "opencode_zen" },
-      },
-      display = {
-        chat = {
-          show_settings = true,
-          show_token_count = true,
-          start_in_insert_mode = false,
-          window = {
-            layout = "vertical",
-            width = 0.45,
-            height = 0.8,
-            border = "rounded",
-          },
-        },
-        diff = { enabled = true },
-        inline = { layout = "vertical" },
-      },
-      opts = { log_level = "INFO", language = "English", send_code = true },
-    },
-    config = function(_, opts)
-      require("codecompanion").setup(opts)
-      local map = vim.keymap.set
-      map({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>",
-        { desc = "Toggle CodeCompanion chat" })
-      map({ "n", "v" }, "<leader>ci", "<cmd>CodeCompanion<cr>",
-        { desc = "CodeCompanion inline assist" })
-      map("v", "ga", "<cmd>CodeCompanionChat Add<cr>",
-        { desc = "Añadir selección a chat" })
-    end,
-  },
 })
 
 -- Avante: highlight groups extra para que matchee con catppuccin-macchiato
@@ -731,6 +630,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     hl(0, "AvanteReversedThirdTitle", { fg = "#f5a97f" })
     hl(0, "AvanteConflictCurrent",    { bg = "#363a4f", fg = "#eed49f" })
     hl(0, "AvanteConflictIncoming",   { bg = "#363a4f", fg = "#a6da95" })
+    hl(0, "AvanteThinking",           { fg = "#6e738d" })
+    hl(0, "AvanteThoughtPrefix",      { fg = "#6e738d", italic = true })
     hl(0, "AvantePopupHint",          { fg = "#6e738d", italic = true })
     hl(0, "AvanteInlineHint",         { fg = "#6e738d" })
     hl(0, "AvantePromptInput",        { fg = "#cad3f5", bg = "#1e1e2e" })
@@ -878,6 +779,17 @@ map("n", "<leader>oc", "<cmd>lua OpencodeToggle()<CR>", { desc = "Toggle OpenCod
 map("n", "<leader>ft", "<cmd>TodoTelescope<CR>", { desc = "Buscar TODOs / FIXMEs" })
 map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Cerrar notificación" })
 
+-- Resaltar thought content de Avante en gris (coverage dinámico)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "Avante",
+  callback = function()
+    vim.schedule(function()
+      pcall(vim.fn.matchadd, "AvanteThoughtPrefix", [[^\s*>\s.*]])
+      pcall(vim.fn.matchadd, "AvanteTitle", [[^🤔.*]])
+    end)
+  end,
+})
+
 -- ============================================================================
 --  CÓMO USAR:
 --  1. Copia este archivo a ~/.config/nvim/init.lua
@@ -887,6 +799,5 @@ map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Cerrar notificación" 
 --  4. Obtén tu API key gratis en https://opencode.ai/auth
 --  5. IA:
 --     Avante:  <leader>aa (preguntar), <leader>ae (editar selección)
---     CodeCompanion: <leader>cc (chat), <leader>ci (inline), ga (visual → añadir a chat)
 --     OpenCode terminal: <leader>oc
 -- ============================================================================
