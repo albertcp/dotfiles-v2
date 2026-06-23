@@ -10,6 +10,25 @@ Archivo principal: `config_neovim.lua` → copiar a `~/.config/nvim/init.lua`
   ```
   Luego configura tu terminal para usar "JetBrainsMono Nerd Font".
 
+- **ripgrep** (necesario para Telescope `live_grep`):
+  ```bash
+  brew install ripgrep
+  ```
+
+- **Compilador de C++** (clangd LSP):
+  ```bash
+  brew install llvm
+  ```
+
+- **Python** con `python3` y `pip` (pylsp LSP).
+
+  ### Instalación en OpenSUSE (zypper)
+
+  ```bash
+  # Nerd Font (descargar e instalar manualmente desde https://www.nerdfonts.com/font-downloads)
+  sudo zypper install ripgrep clangd python3-pip
+  ```
+
 ## Plugins instalados
 
 | Plugin | GitHub | Función |
