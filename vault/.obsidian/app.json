@@ -1,0 +1,16 @@
+{
+  "dailyNotesFolder": "diario",
+  "dailyNotesFormat": "YYYY-MM-DD",
+  "dailyNotesTemplate": "_meta/templates/tpl-daily.md",
+  "newFileFolderPath": "diario",
+  "attachmentFolderPath": "_meta/attachments",
+  "showLineNumber": true,
+  "spellcheck": true,
+  "tabSize": 2,
+  "readableLineLength": true,
+  "showFrontmatter": true,
+  "livePreview": true,
+  "alwaysUpdateLinks": true,
+  "useMarkdownLinks": false,
+  "newLinkFormat": "shortest"
+}

@@ -1,0 +1,9 @@
+{
+  "renderNullAs": "\\-",
+  "taskCompletionTracking": true,
+  "taskCompletionUseEmojiShorthand": false,
+  "taskCompletionText": "completado",
+  "warnOnEmptyResult": true,
+  "refreshEnabled": true,
+  "monospaceFontSize": 14
+}

@@ -1,0 +1,9 @@
+{
+  "templates_folder": "_meta/templates",
+  "syntax_highlight": true,
+  "autocomplete_dates": true,
+  "trigger_on_file_creation": true,
+  "enable_system_commands": false,
+  "command_timeout": 5,
+  "dynamic_templates_folder": ""
+}

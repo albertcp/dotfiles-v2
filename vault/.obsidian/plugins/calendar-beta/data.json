@@ -1,0 +1,13 @@
+{
+  "shouldConfirmBeforeCreate": false,
+  "localeOverride": "system-default",
+  "weekStart": "monday",
+  "showWeeklyNote": false,
+  "sourceSettings": {},
+  "wordsPerDot": 250,
+  "showMonthlyNote": false,
+  "showQuarterlyNote": false,
+  "showYearlyNote": false,
+  "showAbove": true,
+  "showBelow": true
+}

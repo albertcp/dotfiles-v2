@@ -1,0 +1,16 @@
+{
+  "version": 4,
+  "homepages": {
+    "Main Homepage": {
+      "useDailyNote": false,
+      "openOnStartup": true,
+      "alwaysOpen": true,
+      "homePageRibbon": true,
+      "emoji": "🏠",
+      "value": "_meta/dashboards/Inicio.md",
+      "kind": "File",
+      "commands": []
+    }
+  },
+  "separateMobile": false
+}

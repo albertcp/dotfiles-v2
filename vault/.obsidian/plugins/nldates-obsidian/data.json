@@ -1,0 +1,8 @@
+{
+  "autocompleteTriggerPhrase": "@",
+  "dateFormat": "YYYY-MM-DD",
+  "timeFormat": "HH:mm",
+  "weekStart": "monday",
+  "modifyDates": true,
+  "autocompleteDates": true
+}

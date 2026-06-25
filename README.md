@@ -193,3 +193,48 @@ Para cambiar de proveedor: `:AvanteSwitchProvider <nombre>` o presionar `ga` en 
 | `<C-w>h/j/k/l` | Moverse entre ventanas |
 
 > `<leader>` es `\` por defecto. Para cambiarlo añade `vim.g.mapleader = " "` al inicio del config.
+
+---
+
+# Obsidian Vault — Trabajo diario
+
+Vault de Obsidian en `vault/` configurado para gestión de contactos, proyectos, PIs y sprints (SAFe).
+
+## Estructura
+
+```
+vault/
+├── _meta/
+│   ├── templates/          # 5 templates (Templater)
+│   └── dashboards/
+│       ├── Inicio.md       # Home — se abre al iniciar
+│       └── Contactos.md    # Vista global de contactos
+├── contactos/              # Notas individuales por persona
+├── proyectos/              # <proyecto>/<PI>/<sprint>
+└── diario/                 # Daily notes (YYYY-MM-DD)
+```
+
+## Plugins instalados
+
+| Plugin | Función |
+|---|---|
+| Dataview | Consultas y tablas dinámicas |
+| Templater | Templates con prompts |
+| Calendar | Calendario lateral para daily notes |
+| QuickAdd | Crear notas desde cualquier lugar |
+| Natural Language Dates | Autocompletar @fechas |
+| Homepage | Abrir Inicio.md al iniciar |
+| OpenCode | Terminal e historial de opencode |
+
+## Atajos (macOS)
+
+| Atajo | Acción |
+|---|---|
+| `Cmd+Shift+C` | 📇 Nuevo contacto |
+| `Cmd+Shift+P` | 📁 Nuevo proyecto |
+| `Cmd+Shift+I` | 📌 Nuevo PI |
+| `Cmd+Shift+S` | 🏃 Nuevo sprint |
+| `Cmd+Shift+D` | 📅 Ir a daily de hoy |
+| `Cmd+Shift+H` | 🏠 Ir a Home |
+| `Cmd+Shift+G` | 🔍 Abrir graph view |
+| `Cmd+O` | Buscar archivos |

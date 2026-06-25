@@ -1,0 +1,7 @@
+{
+  "opencodePath": "opencode",
+  "defaultWorkingDirectory": "~/Projects/dotfiles",
+  "terminalFontSize": 15,
+  "terminalFontFamily": "JetBrainsMono Nerd Font, monospace",
+  "newSessionArgs": ""
+}
