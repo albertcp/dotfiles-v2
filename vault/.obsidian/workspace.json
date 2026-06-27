@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "9230c7a91f8cf950",
+            "id": "e7a7b303c61786dc",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -218,9 +218,11 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "9230c7a91f8cf950",
+  "active": "5d6101eb0896a493",
   "lastOpenFiles": [
+    "test.md",
     "_meta/dashboards/Inicio.md",
+    "test2.md",
     "Welcome.md",
     "Untitled.base",
     "_meta/templates/tpl-pi.md",

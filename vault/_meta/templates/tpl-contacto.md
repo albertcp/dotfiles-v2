@@ -1,16 +1,16 @@
 ---
 tipo: contacto
-nombre: "<% tp.system.prompt("Nombre completo") %>"
-siglum: "<% tp.system.prompt("Siglum / alias") %>"
-empresa: "<% tp.system.prompt("Empresa") %>"
-rol: "<% tp.system.prompt("Rol en empresa") %>"
-proyecto: "<% tp.system.prompt("Proyecto") %>"
-email: "<% tp.system.prompt("Email") %>"
-telefono: "<% tp.system.prompt("Teléfono") %>"
+nombre: "{{VALUE}}"
+siglum: "<% tp.system.prompt('Siglum / alias') %>"
+empresa: "<% tp.system.prompt('Empresa') %>"
+rol: "<% tp.system.prompt('Rol en empresa') %>"
+proyecto: "<% tp.system.prompt('Proyecto') %>"
+email: "<% tp.system.prompt('Email') %>"
+telefono: "<% tp.system.prompt('Teléfono') %>"
 tags: [contacto]
 ---
 
-# <% tp.frontmatter.nombre %>
+# {{VALUE}}
 
 | Campo | Valor |
 |-------|-------|
@@ -22,4 +22,3 @@ tags: [contacto]
 | **Teléfono** | <% tp.frontmatter.telefono %> |
 
 ## Notas
-

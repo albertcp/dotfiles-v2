@@ -1,7 +1,7 @@
 ---
 tags: [dashboard, home]
 ---
-
+****************
 # 🏠 Inicio
 
 **Acceso rápido:** `= "[[" + dateformat(date(today), "yyyy-MM-dd") + "|📅 Hoy]]"` · [[_meta/dashboards/Contactos.md|📇 Contactos]] · [[proyectos|📂 Proyectos]]

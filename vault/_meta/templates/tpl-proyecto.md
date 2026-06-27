@@ -1,11 +1,11 @@
 ---
 tipo: proyecto
-nombre: "<% tp.system.prompt("Nombre del proyecto") %>"
-cliente: "<% tp.system.prompt("Cliente") %>"
+nombre: "{{VALUE}}"
+cliente: "<% tp.system.prompt('Cliente') %>"
 tags: [proyecto]
 ---
 
-# <% tp.frontmatter.nombre %>
+# {{VALUE}}
 
 **Cliente:** <% tp.frontmatter.cliente %>
 
@@ -17,7 +17,7 @@ TABLE without id
 	status as "Estado",
 	fecha_inicio as "Inicio",
 	fecha_fin as "Fin"
-FROM "proyectos/<% tp.frontmatter.nombre %>"
+FROM "proyectos/{{VALUE}}"
 WHERE tipo = "pi"
 SORT pi DESC
 ```
@@ -29,7 +29,7 @@ TABLE
 	siglum as "Siglum",
 	rol as "Rol"
 FROM "contactos"
-WHERE proyecto = "<% tp.frontmatter.nombre %>"
+WHERE proyecto = "{{VALUE}}"
 SORT nombre ASC
 ```
 
@@ -38,4 +38,3 @@ SORT nombre ASC
 - [ ]
 
 ## Notas
-

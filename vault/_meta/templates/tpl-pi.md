@@ -1,18 +1,18 @@
 ---
 tipo: pi
-proyecto: "<% tp.system.prompt("Proyecto") %>"
-pi: "<% tp.system.prompt("Número de PI (ej: 2026.1)") %>"
+proyecto: "{{VALUE:proyecto}}"
+pi: "{{VALUE:pi}}"
 status: planificado
-fecha_inicio: "<% tp.system.prompt("Fecha inicio (YYYY-MM-DD)") %>"
-fecha_fin: "<% tp.system.prompt("Fecha fin (YYYY-MM-DD)") %>"
+fecha_inicio: "<% tp.system.prompt('Fecha inicio (YYYY-MM-DD)') %>"
+fecha_fin: "<% tp.system.prompt('Fecha fin (YYYY-MM-DD)') %>"
 tags: [pi]
 ---
 
-# PI <% tp.frontmatter.pi %> — <% tp.frontmatter.proyecto %>
+# PI {{VALUE:pi}} — {{VALUE:proyecto}}
 
 | Campo | Valor |
 |-------|-------|
-| **Proyecto** | [[<% tp.frontmatter.proyecto %>]] |
+| **Proyecto** | [[{{VALUE:proyecto}}]] |
 | **Período** | <% tp.frontmatter.fecha_inicio %> → <% tp.frontmatter.fecha_fin %> |
 | **Estado** | <% tp.frontmatter.status %> |
 
@@ -24,7 +24,7 @@ TABLE without id
 	status as "Estado",
 	fecha_inicio as "Inicio",
 	fecha_fin as "Fin"
-FROM "proyectos/<% tp.frontmatter.proyecto %>/PI <% tp.frontmatter.pi %>"
+FROM "proyectos/{{VALUE:proyecto}}/PI {{VALUE:pi}}"
 WHERE tipo = "sprint"
 SORT sprint ASC
 ```
@@ -34,4 +34,3 @@ SORT sprint ASC
 - [ ]
 
 ## Notas
-
